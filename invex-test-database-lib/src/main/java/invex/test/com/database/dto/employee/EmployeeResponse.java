@@ -1,7 +1,6 @@
 package invex.test.com.database.dto.employee;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeResponse {
-    
+
     private String id;
     private String firstName;
     private String middleName;
@@ -23,7 +22,4 @@ public class EmployeeResponse {
     private LocalDate birthDate;
     private String position;
     private Boolean enabled;
-    private LocalDateTime createdOn;
-    private LocalDateTime lastUpdated;
-    private String modifiedBy;
 }

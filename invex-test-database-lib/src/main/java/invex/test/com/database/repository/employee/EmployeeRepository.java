@@ -32,4 +32,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
             )
             """)
     List<Employee> searchEmployees(@Param("name") String name);
+
+    List<Employee> findByFirstNameIn(List<String> names);
 }
