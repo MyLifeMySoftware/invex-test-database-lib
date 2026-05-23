@@ -1,6 +1,8 @@
 package invex.test.com.database.exception;
 
 import invex.test.com.database.dto.ErrorResponse;
+import invex.test.com.database.exception.employee.EmployeeAlreadyExistsException;
+import invex.test.com.database.exception.employee.EmployeeNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -104,5 +106,37 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
+    }
+
+    @ExceptionHandler(EmployeeAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleEmployeeAlreadyExists(
+            EmployeeAlreadyExistsException ex, WebRequest request) {
+
+        ErrorResponse errorResponse = ErrorResponse.of(
+                HttpStatus.CONFLICT.value(),
+                "Conflict",
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        errorResponse.setDetails(ex.getConflicts());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEmployeeNotFoundt(
+            EmployeeNotFoundException ex, WebRequest request) {
+
+        log.error("Employee not found: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.of(
+                HttpStatus.NOT_FOUND.value(),
+                "Not found",
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 }
